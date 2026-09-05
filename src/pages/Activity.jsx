@@ -1,0 +1,5 @@
+import { useEffect,useState } from "react";
+import { Activity as ActivityIcon } from "lucide-react";
+import { getActivities } from "../api/activities";
+import { formatDateTime } from "../lib/format";
+export default function Activity(){const [items,setItems]=useState([]);useEffect(()=>{getActivities().then(r=>setItems(r.data.activities||r.data||[]))},[]);return <div className="fade-in space-y-7"><div><div className="text-xs uppercase tracking-[.2em] text-black/35">Timeline</div><h1 className="font-display text-5xl mt-2">Activity</h1></div><div className="bg-white border border-[#dedfd7] rounded-2xl overflow-hidden">{items.length?items.map(x=><div key={x.id} className="p-4 flex items-center gap-4 border-b last:border-0"><div className="w-10 h-10 rounded-full bg-[#eff5ce] grid place-items-center"><ActivityIcon size={17}/></div><div className="flex-1"><div className="text-sm"><b>{x.action}</b> · {x.resource_type}</div><div className="text-xs text-black/40 mt-1">{formatDateTime(x.created_at)}</div></div></div>):<div className="p-14 text-center text-black/35">No activity yet.</div>}</div></div>}
