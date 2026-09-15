@@ -1,4 +1,4 @@
-import { Bell, Menu, Search } from "lucide-react";
+import { Bell, Menu, Search, UploadCloud } from "lucide-react";
 import { initials } from "../lib/format";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ export default function Topbar({ onMenu, onUpload }) {
         <span className="ml-auto font-mono text-[10px] bg-[#f0f0ea] px-2 py-1 rounded">⌘ K</span>
       </button>
       <div className="ml-auto flex items-center gap-2">
-        <button onClick={onUpload} className="sm:hidden w-10 h-10 rounded-xl bg-[#d9f36a] grid place-items-center"><Search size={18}/></button>
+        <button onClick={onUpload} className="sm:hidden w-10 h-10 rounded-xl bg-[#d9f36a] grid place-items-center"><UploadCloud size={18}/></button>
         <button className="w-10 h-10 rounded-xl hover:bg-black/5 grid place-items-center"><Bell size={18}/></button>
         <div className="w-9 h-9 rounded-full bg-[#292b27] text-white grid place-items-center text-xs font-semibold">{initials(user?.name || user?.email || "U")}</div>
       </div>

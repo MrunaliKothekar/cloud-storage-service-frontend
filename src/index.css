@@ -89,7 +89,5 @@ button { cursor: pointer; }
   border-radius: 8px;
   font-size: 13px;
   text-align: left;
-}
-@utility menu {
   &:hover { background: #f3f3ee; }
 }

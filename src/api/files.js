@@ -2,6 +2,7 @@ import api from "./client";
 
 export const getFiles = (folderId = null) =>
   api.get("/files", { params: folderId ? { folderId } : {} });
+export const getFileStats = () => api.get("/files/stats");
 
 export const initUpload = (data) => api.post("/files/init", data);
 export const getUploadUrl = (data) => api.post("/files/upload-url", data);

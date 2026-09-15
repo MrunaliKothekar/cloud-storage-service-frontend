@@ -22,9 +22,15 @@ export default function UploadModal({
 
   function selectFiles(selectedFiles) {
     const selected = Array.from(selectedFiles || []);
+    const MAX_SIZE = 50 * 1024 * 1024;
+    const oversized = selected.find((file) => file.size <= 0 || file.size > MAX_SIZE);
 
-    setError("");
-    setFiles(selected);
+    setError(
+      oversized
+        ? `"${oversized.name}" is larger than the 50 MB limit.`
+        : ""
+    );
+    setFiles(oversized ? selected.filter((file) => file.size > 0 && file.size <= MAX_SIZE) : selected);
     setProgress({});
   }
 
@@ -51,12 +57,12 @@ export default function UploadModal({
 
     const initResponse = await initUpload({
       name: file.name,
-      size: file.size,
+      sizeBytes: file.size,
       mimeType,
       folderId,
     });
 
-    const meta = initResponse.data;
+    const meta = initResponse.data.upload ?? initResponse.data;
 
     console.log("Upload initialized:", meta);
 
@@ -74,6 +80,7 @@ export default function UploadModal({
     });
 
     const signedUrl =
+      signedResponse.data.upload?.signedUrl ??
       signedResponse.data.signedUrl;
 
     if (!signedUrl) {
@@ -121,7 +128,7 @@ export default function UploadModal({
       fileId: meta.fileId,
       storageKey: meta.storageKey,
       name: file.name,
-      size: file.size,
+      sizeBytes: file.size,
       mimeType,
       folderId,
     });

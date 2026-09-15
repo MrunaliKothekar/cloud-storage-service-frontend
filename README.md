@@ -1,16 +1,8 @@
 # Cloudroom Frontend
 
-A Tailwind CSS + React frontend for the Cloud Storage Service backend.
+React + Vite + Tailwind CSS frontend for the Cloudroom cloud storage service.
 
-## Stack
-- React 19
-- Vite
-- Tailwind CSS v4
-- React Router
-- Axios
-- Lucide React
-
-## Setup
+## Run
 
 ```bash
 npm install
@@ -18,111 +10,36 @@ copy .env.example .env
 npm run dev
 ```
 
-Windows PowerShell:
-```powershell
-Copy-Item .env.example .env
-npm install
-npm run dev
-```
+Frontend: `http://localhost:3000`
 
-Frontend runs at `http://localhost:3000`.
-
-Set:
+`.env`:
 ```env
 VITE_API_URL=http://localhost:5000/api
+VITE_APP_NAME=Cloudroom
 ```
 
-The Axios client uses `withCredentials: true`, so JWT/httpOnly cookies from the Express backend are sent automatically.
+## Connected functionality
 
-## Backend routes used
+- Register / login / logout
+- Google OAuth
+- Automatic access-token refresh
+- Root and nested folder navigation
+- Breadcrumbs
+- Folder creation, rename, move and trash
+- File upload through Supabase signed upload URLs
+- 50 MB client/server file-size validation
+- File download through signed URLs
+- File rename, move and trash
+- Search
+- Star / unstar
+- Share with viewer/editor roles and revoke access
+- Shared-with-me view
+- Public links with optional password and expiration
+- Trash restore
+- Activity history
 
-Auth:
-- POST `/api/auth/register`
-- POST `/api/auth/login`
-- POST `/api/auth/logout`
-- GET `/api/auth/me`
-- POST `/api/auth/refresh`
-- GET `/api/auth/google`
+## Backend
 
-Folders:
-- POST `/api/folders`
-- GET `/api/folders/:id`
-- PATCH `/api/folders/:id`
-- DELETE `/api/folders/:id`
+The backend runs on `http://localhost:5000` by default.
 
-Files:
-- GET `/api/files`
-- POST `/api/files/init`
-- POST `/api/files/upload-url`
-- POST `/api/files/complete`
-- PATCH `/api/files/:id`
-- DELETE `/api/files/:id`
-- GET `/api/files/:id/download`
-
-Sharing:
-- POST `/api/shares`
-- GET `/api/shares`
-- DELETE `/api/shares/:id`
-
-Public links:
-- POST `/api/links`
-- GET `/api/links`
-- GET `/api/links/public/:token`
-- DELETE `/api/links/:id`
-
-Other:
-- GET `/api/search`
-- POST/GET/DELETE `/api/stars`
-- GET `/api/trash`
-- PATCH `/api/trash/files/:id/restore`
-- PATCH `/api/trash/folders/:id/restore`
-- GET `/api/activities`
-
-## Important backend CORS setting
-
-Because the frontend is on port 3000 and backend on 5000, the backend must allow:
-- origin: `http://localhost:3000`
-- credentials: `true`
-
-For production, replace the origin with your deployed frontend domain.
-
-## Google OAuth
-
-The login button opens the backend Google OAuth route:
-`/api/auth/google`.
-
-The backend callback must eventually redirect to the deployed frontend URL after successful authentication. Keep the Google callback URL on the backend.
-
-## Upload flow
-
-The upload component follows the backend's signed-upload architecture:
-
-1. `/files/init`
-2. `/files/upload-url`
-3. PUT directly to Supabase signed URL
-4. `/files/complete`
-
-The browser never receives the Supabase service-role key.
-
-## UI direction
-
-Cloudroom uses an editorial/private-workspace visual language rather than a generic blue SaaS dashboard:
-- warm paper background
-- charcoal navigation
-- lime action accent
-- thin borders
-- large serif display typography
-- compact utility typography
-- restrained motion
-- responsive mobile navigation
-
-## Notes
-
-The backend's current response shape may vary slightly. API helpers intentionally accept common forms such as `response.data.user`, `response.data.files`, or direct arrays where practical.
-
-For production, add:
-- global Axios refresh/retry interceptor
-- real share/link modals in item actions
-- stronger upload progress using XMLHttpRequest
-- pagination for large file sets
-- permanent-delete UI if the backend exposes it
+Keep the backend `.env` out of Git. Use `backend/.env.example` as the template.
