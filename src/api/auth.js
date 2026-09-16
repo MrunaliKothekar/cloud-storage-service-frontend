@@ -6,4 +6,4 @@ export const logout = () => api.post("/auth/logout");
 export const me = () => api.get("/auth/me");
 export const refresh = () => api.post("/auth/refresh");
 export const googleLoginUrl = () =>
-  `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/auth/google`;
+  `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}/api/auth/google`;
